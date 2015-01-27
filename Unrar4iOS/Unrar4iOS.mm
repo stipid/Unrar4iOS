@@ -89,8 +89,10 @@ int CALLBACK CallbackProc(UINT msg, long UserData, long P1, long P2) {
 	
 	NSMutableArray *files = [NSMutableArray array];
 	while ((RHCode = RARReadHeaderEx(_rarFile, header)) == 0) {
-		NSString *_filename = [NSString stringWithCString:header->FileName encoding:NSASCIIStringEncoding];
-		[files addObject:_filename];
+//		NSString *_filename = [NSString stringWithCString:header->FileName encoding:NSASCIIStringEncoding];
+        NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+        NSString *_filename = [NSString stringWithCString:header->FileName encoding:enc];
+        [files addObject:_filename];
 		
 		if ((PFCode = RARProcessFile(_rarFile, RAR_SKIP, NULL, NULL)) != 0) {
 			[self _unrarCloseFile];
